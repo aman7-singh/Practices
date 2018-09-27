@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubArray", "SubArray\SubArr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringReverse", "StringReverse\StringReverse.csproj", "{C74D785F-A7FB-432D-8918-7CA11CE961AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordCount", "WordCount\WordCount.csproj", "{1FC6198A-C061-42F1-BB3E-EA242B18579F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C74D785F-A7FB-432D-8918-7CA11CE961AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C74D785F-A7FB-432D-8918-7CA11CE961AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C74D785F-A7FB-432D-8918-7CA11CE961AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC6198A-C061-42F1-BB3E-EA242B18579F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC6198A-C061-42F1-BB3E-EA242B18579F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC6198A-C061-42F1-BB3E-EA242B18579F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC6198A-C061-42F1-BB3E-EA242B18579F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,7 +15,7 @@ namespace StringReverse
             StringBuilder EncodedString = new StringBuilder();
             //1
             string inputString = "Aman Kumar";//Dpdq Nxpdu
-            ArrayList asciiArr = new ArrayList();
+            List<int> asciiArr = new List<int>();
             int codeval = 3;
             for (int i = 0; i < inputString.Length; i++)
             {

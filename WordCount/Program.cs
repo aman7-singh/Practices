@@ -8,6 +8,7 @@ namespace WordCount
 {
     class Program
     {
+        //Number of each words in a sentence.
         static void Main(string[] args)
         {
             string sentence = "hr id the ys the id";

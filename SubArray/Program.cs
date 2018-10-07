@@ -8,6 +8,10 @@ namespace SubArray
 {
     class Program
     {
+        /// <summary>
+        /// longest sub array in an array.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             int T;

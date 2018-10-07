@@ -9,6 +9,10 @@ namespace StringReverse
 {
     class Program
     {
+        /// <summary>
+        /// Encription.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
 

@@ -8,153 +8,88 @@ namespace Practice
 {
     public class LongestSubarrayContiguousElements
     {
-        public int findRequiredLength(int[] array)
+        public class A
         {
-            if (array.Length == 0)
+            public virtual void M()
             {
-                return 0;
+                Console.WriteLine("AM");
+
             }
 
-            int maxLength = 1;
-            int subArrayStart = 0, subArrayEnd = 0;
-
-            // we are interested in looking at sub-arrays with minimum length as 2
-            // since length of 1 for longest sub-array with contiguous elements is trivial 
-            // and we don't need to check for that  
-            for (int i = 0; i < array.Length - 1; i++)
+            public A()
             {
-                int maxElement = array[i], minElement = array[i];
-
-                for (int j = i + 1; j < array.Length; j++)
-                {
-                    // update min and max elements
-                    if (array[j] > maxElement)
-                    {
-                        maxElement = array[j];
-                    }
-                    if (array[j] < minElement)
-                    {
-                        minElement = array[j];
-                    }
-
-                    // if difference between min and max is equal to length of sub-array 
-                    // then we have found sub-array with elements which could form contiguous sequence
-                    if ((maxElement - minElement) == (j - i))
-                    {
-                        // if length of sub-array is greater than maximum length found
-                        if ((j - i + 1) > maxLength)
-                        {
-                            maxLength = j - i + 1;
-                            subArrayStart = i;
-                            subArrayEnd = j;
-                        }
-                    }
-                }
+                Console.WriteLine("A");
             }
-
-            Console.WriteLine(subArrayStart + "-" + subArrayEnd);
-            return maxLength;
         }
-
-    }
-        class Program
-    {
-        static int maxSubArraySum(int[] a)
+        public class B:A
         {
-               // public static void main(String[] args)
-                {
-                    LongestSubarrayContiguousElements solution = new LongestSubarrayContiguousElements();
-                    int[] testArray = { 10, 12, 11, 94, 56, 32, 34, 36, 33, 35, 37 };
-
-                   Console.WriteLine(solution.findRequiredLength(testArray));
-
-                }
-
-
-                int size = a.Length;
-            int max_so_far = int.MinValue,
-                max_ending_here = 0;
-            int asd = 0;
-            for (int i = 0; i < size; i++)
+            public override void M()
             {
-                asd += 1;
-                max_ending_here = max_ending_here + a[i];
+                Console.WriteLine("BM");
 
-                if (max_so_far < max_ending_here)
-                    max_so_far = max_ending_here;
-
-                if (max_ending_here < 0)
-                    max_ending_here = 0;
             }
-
-            return max_so_far;
+            public B()
+            {
+                Console.WriteLine("B");
+            }
         }
+        public class C:B
+        {
+            public override void M()
+            {
+                Console.WriteLine("CM");
 
-
-
+            }
+            public void Ex()
+            {
+                throw new Exception();
+            }
+            public C()
+            {
+                Console.WriteLine("C");
+            }
+        }
         static void Main(string[] args)
         {
-
-            int[] a1 = { -2, -3, 4, -1, -2, 1, 5, -3 };
-            Console.Write("Maximum contiguous sum is " +
-                                    maxSubArraySum(a1));
-
-
-            int testcase = 1;
-            string DistLenStr = "5 6";
-            string temparray = "3 2 1 3 4 5";
-
-            //int testcase = Convert.ToInt32(Console.ReadLine());
-
-            List<Tuple<string, string>> top = new List<Tuple<string, string>>();
-
-            for (int i = 0; i < testcase; i++)
+            try
             {
-                //string DistLenStr = Console.ReadLine();
-                //string temparray = Console.ReadLine();
-                top.Add(new Tuple<string, string>(DistLenStr, temparray));
-            }
+                A a1 = new A();
+                A ab = new B();
+                A ac = new C();
 
-            foreach (var t in top)
+                B b1 = new B();
+                B bc = new C();
+
+                C c1 = new C();
+
+               // B b2 = (B)new A();
+                //C c2 = (C)new B();
+
+                a1.M();
+                ab.M();
+                ac.M();
+                b1.M();
+                bc.M();
+                c1.M();
+                //c1.Ex();
+            }
+            catch (TypeInitializationException ex)
             {
-                
-                string[] DistLen = t.Item1.Split(' ');
-                int DistinctVal = Convert.ToInt32(DistLen[0]);
-                int arrlen = Convert.ToInt32(DistLen[1]);
-                string[] arraytest = t.Item2.Split(' ');
-                var a = arraytest.Distinct().ToList();
-
-                if (arraytest.Length != arrlen || a.Count != DistinctVal || arraytest.Length <= DistinctVal)
-                {
-                    Console.WriteLine("Inavlid");
-                    Console.ReadLine();
-                    return;
-                }
-
-
-                List<string> tempArrTest = new List<string>();
-                int len = 0;
-                for (int i = 0; i < arrlen; i++)
-                {
-
-                    if (!tempArrTest.Contains(arraytest[i]))
-                    {
-                        tempArrTest.Add(arraytest[i]);
-                    }
-                    else
-                    {
-                        if (len < tempArrTest.Count)
-                            len = tempArrTest.Count;
-                        tempArrTest = new List<string>();
-                        tempArrTest.Add(arraytest[i]);
-                    }
-                }
-                if (len < tempArrTest.Count)
-                    len = tempArrTest.Count;
-                Console.WriteLine(len);
+                Console.WriteLine(ex.Message);
             }
-
-            Console.ReadLine();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            catch
+            {
+                Console.WriteLine("ex");
+            }
+            finally
+            {
+                Console.ReadKey();
+            }
+            
         }
     }
 

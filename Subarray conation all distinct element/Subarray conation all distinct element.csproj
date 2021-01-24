@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1FC6198A-C061-42F1-BB3E-EA242B18579F}</ProjectGuid>
+    <ProjectGuid>{E3206B5C-D255-4AB4-80D6-A5589A9EA060}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>WordCount</RootNamespace>
-    <AssemblyName>WordCount</AssemblyName>
+    <RootNamespace>Subarray_conation_all_distinct_element</RootNamespace>
+    <AssemblyName>Subarray conation all distinct element</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,20 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodingBlock.cs" />
-    <Compile Include="GeeksForGeeks.cs" />
-    <Compile Include="IEquatable.cs" />
-    <Compile Include="IStringMap.cs" />
-    <Compile Include="IXmlEditor.cs" />
-    <Compile Include="Leetcode.cs" />
-    <Compile Include="LinqClass.cs" />
-    <Compile Include="Miscellaneous.cs" />
-    <Compile Include="MyCodeSchool.cs" />
-    <Compile Include="Practice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringMap.cs" />
-    <Compile Include="XmlEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -10,8 +10,637 @@ namespace WordCount
     public class MyHashSet
     {
     }
+ 
     public static class Leetcode
     {
+        public static int RainWaterTrap(int[] height)
+        {
+            int n = height.Length;
+            int[] maxl = new int[n];
+            int[] maxr = new int[n];
+            int[] maxWater = new int[n];
+            int totalArea = 0;
+
+            maxr[n - 1] = height[n - 1];
+            for (int i = n - 2; i >= 0; i--)
+            {
+                maxr[i] = Math.Max(maxr[i + 1], height[i]);
+            }
+
+            maxl[0] = height[0];
+            maxWater[0] = Math.Min(maxl[0], maxr[0]);
+            totalArea = maxWater[0] - height[0];
+            for (int i = 1; i < n; i++)
+            {
+                maxl[i] = Math.Max(maxl[i - 1], height[i]);
+                maxWater[i] = Math.Min(maxl[i], maxr[i]);
+                totalArea += maxWater[i] - height[i];
+            }
+
+            return totalArea;
+        }
+        public static int RainWaterTrap_old(int[] height)
+        {
+            int n = height.Length;
+            int[] maxl = new int[n];
+            int[] maxr = new int[n];
+            int[] maxWater = new int[n];
+            int[] area = new int[n];
+            int totalArea = 0;
+            maxl[0] = height[0];
+            for (int i = 1; i < n; i++)
+            {
+                maxl[i] = Math.Max(maxl[i-1], height[i]);
+            }
+            maxr[n-1] = height[n-1];
+            for (int i = n - 2; i >= 0; i--)
+            {
+                maxr[i] = Math.Max(maxr[i+1], height[i]);
+            }
+
+            maxWater[0] = maxl[0];
+            for (int i = 0; i < n; i++)
+            {
+                maxWater[i] = Math.Min(maxl[i], maxr[i]);
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                area[i] = maxWater[i] - height[i];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                totalArea += area[i];
+            }
+
+            return totalArea;
+        }
+
+        public static int MaxAreaOfRectInBinarySearch(int[][] A)
+        {
+            int n = A[0].Length;
+            int[] prev = new int[n];
+
+            for (int j = 0; j < n; j++)
+            {
+                prev[j] = A[0][j];
+            }
+            int max = LargestRectangleArea(prev);
+
+            for (int i = 1; i < A.Length; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (A[i][j] == 0)
+                    {
+                        prev[j] = 0;
+                    }
+                    else
+                    {
+                        prev[j] += A[i][j];
+                    }
+                }
+                max = Math.Max(max, LargestRectangleArea(prev));
+            }
+            return max;
+        }
+        public static int MaximalRectangle(char[][] A)
+        {
+            if (A == null || A.Length <= 0)
+            {
+                return 0;
+            }
+            int n = A[0].Length;
+            int[] prev = new int[n];
+            int ap = 0;
+            for (int j = 0; j < n; j++)
+            {
+                ap = (int)char.GetNumericValue(A[0][j]);
+                prev[j] = ap;
+            }
+            int max = LargestRectangleArea(prev);
+
+            for (int i = 1; i < A.Length; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    ap = (int)char.GetNumericValue(A[i][j]);
+                    if (ap == 0)
+                    {
+                        prev[j] = 0;
+                    }
+                    else
+                    {
+                        ap = (int)char.GetNumericValue(A[i][j]);
+                        prev[j] += ap;
+                    }
+                }
+                max = Math.Max(max, LargestRectangleArea(prev));
+            }
+            return max;
+        }
+        public static int LargestRectangleArea(int[] heights)
+        {
+            int n = heights.Length;
+            var nslArr = NSL(heights);
+            var nsrArr = NSR(heights);
+
+            var width = new int[n];
+            var area = new int[n];
+
+            int maxArea = 0;
+            for (int i = 0; i < n; i++)
+            {
+                width[i] = nsrArr[i] - nslArr[i] - 1;
+                area[i] = width[i] * heights[i];
+
+                if (maxArea < area[i])
+                {
+                    maxArea = area[i];
+                }
+            }
+
+            return maxArea;
+        }
+
+        public static int[] NSR(int[] A)
+        {
+            int n = A.Length;
+            Stack<int> stk = new Stack<int>();
+            int[] res = new int[n];
+            int psudoIndex = n;
+            for (int i = n - 1; i >= 0; i--)
+            {
+                if (stk.Count == 0)
+                {
+                    res[i] = psudoIndex;
+                }
+                else if (A[stk.Peek()] < A[i])
+                {
+                    res[i] = stk.Peek();
+                }
+                else
+                {
+                    while (stk.Count > 0 && A[stk.Peek()] >= A[i])
+                    {
+                        stk.Pop();
+                    }
+                    if (stk.Count == 0)
+                    {
+                        res[i] = psudoIndex;
+                    }
+                    else
+                    {
+                        res[i] = stk.Peek();
+                    }
+                }
+                stk.Push(i);
+            }
+            return res;
+        }
+
+        public static int[] NSL(int[] A)
+        {
+            int n = A.Length;
+            Stack<int> stk = new Stack<int>();
+            int[] res = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                if (stk.Count == 0)
+                {
+                    res[i] = -1;
+                }
+                else if (A[stk.Peek()] < A[i])
+                {
+                    res[i] = stk.Peek();
+                }
+                else
+                {
+                    while (stk.Count > 0 && A[stk.Peek()] >= A[i])
+                    {
+                        stk.Pop();
+                    }
+                    if (stk.Count == 0)
+                    {
+                        res[i] = -1;
+                    }
+                    else if (A[stk.Peek()] < A[i])
+                    {
+                        res[i] = stk.Peek();
+                    }
+                }
+                stk.Push(i);
+            }
+            return res;
+        }
+
+        public static int[] StockSpanner(int[] A)
+        {
+            int n = A.Length;
+            int[] output = new int[n];
+            int[] temp = new int[n];
+            Stack<int> stk = new Stack<int>(); 
+
+            for (int i = 0; i < n; i++)
+            {
+                if (stk.Count == 0)
+                {
+                    temp[i] = -1;
+                }
+                else if (A[stk.Peek()] > A[i])
+                {
+                    temp[i] = stk.Peek();
+                }
+                else
+                {
+                    while (stk.Count > 0 && A[stk.Peek()] <= A[i])
+                    {
+                        stk.Pop();
+                    }
+                    if (stk.Count == 0)
+                    {
+                        temp[i] = -1;
+                    }
+                    else
+                    {
+                        temp[i] = stk.Peek();
+                    }
+                }
+                stk.Push(i);
+            }
+            for (int i = 0; i < n; i++)
+            {
+                output[i] = i - temp[i];
+            }
+                return output;
+        }
+        public static List<int> prevSmaller(int[] A)
+        {
+            int n = A.Length;
+            int[] Arr = new int[n];
+            var stk = new Stack<int>();
+
+            for (int i = 0; i < n; i++)
+            {
+                if (stk.Count == 0)
+                {
+                    Arr[i] = -1;
+                }
+                else if (stk.Peek() < A[i])
+                {
+                    Arr[i] = stk.Peek();
+                }
+                else
+                {
+                    while (stk.Count > 0 && stk.Peek() >= A[i])
+                    {
+                        stk.Pop();
+                    }
+                    if (stk.Count == 0)
+                    {
+                        Arr[i] = -1;
+                    }
+                    else if (stk.Peek() < A[i])
+                    {
+                        Arr[i] = stk.Peek();
+                    }
+                }
+                stk.Push(A[i]);
+            }
+            return Arr.ToList();
+        }
+        public static IList<int> CountSmaller(int[] nums)
+        {
+            int n = nums.Length;
+            var res = new int[n];
+            var stk = new Stack<int>();
+            int i = 0;
+            int cnt;
+            for (int j = 0; j < n; j++)
+            {
+                cnt = 0;
+                i = j +1;
+                stk.Push(j);
+
+                while (stk.Count > 0 && i < n)
+                {
+                    if (nums[i] < nums[stk.Peek()])
+                    {
+                        cnt++;
+                    }
+                    i++;
+                }
+                res[j] = cnt;
+                stk.Pop();
+            }
+            return res;
+        }
+        public static IList<int> CountSmaller_wrong(int[] nums)
+        {
+            int n = nums.Length;
+            var res = new int[n];
+            var stk = new Stack<int>();
+            int[] temp = new int[n];
+            for (int x = 0; x < n; x++)
+            {
+                res[x] = 0;
+            }
+
+            for (int i = n - 1; i >= 0; i--)
+            {
+                int j = 0;
+                if (stk.Count == 0)
+                {
+                    stk.Push(nums[i]);
+                    continue;
+                }
+                if (stk.Count != 0 && stk.Peek() == nums[i])
+                {
+                    res[i] = stk.Count - 1;
+                    continue;
+                }
+                while (j < n && stk.Count != 0 && stk.Peek() > nums[i])
+                {
+                    temp[j++] = stk.Pop();
+                }
+                if (stk.Count != 0 && stk.Peek() < nums[i])
+                {
+                    res[i] = stk.Count;
+                    stk.Push(nums[i]);
+                }
+
+                for (int x = 0; x < j; x++)
+                {
+                    stk.Push(temp[x]);
+                }
+            }
+            return res;
+        }
+        public static int[] NextGreaterElements(int[] nums)
+        {
+            int n = nums.Length;
+                var next = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                next[i] = -1;
+            }
+            Stack<int> stack = new Stack<int>(); // index stack
+            for (int i = 0; i < n * 2; i++)
+            {
+                int num = nums[i % n];
+                while (stack.Count !=0 && nums[stack.Peek()] < num)
+                    next[stack.Pop()] = num;
+                if (i < n) 
+                    stack.Push(i);
+            }
+            return next;
+        }
+        public static int[] NextGreaterElements_old (int[] nums)
+        {
+            if (nums.Length <= 0)
+                return nums;
+            int[] res = new int[nums.Length];
+            if (nums.Length == 1)
+            {
+                res[0] = -1;
+                return res;
+            }
+            var stk = new Stack<int>();
+            int temp = nums[nums.Length - 1];
+            int v = int.MinValue;
+            var ind = -1;
+            int k = 0;
+            while ( k < nums.Length - 1 && res[nums.Length - 1] == 0)
+            {
+                if (temp < nums[k])
+                {
+                    res[nums.Length - 1] = nums[k];
+                    stk.Push(nums[k]);
+                    ind = k;
+                }
+                k++;
+            }
+            if (res[nums.Length - 1] == 0)
+            {
+                res[nums.Length - 1] = -1;
+                stk.Push(nums[nums.Length - 1]);
+            }
+            for (int i = nums.Length - 2; i >= 0; i--)
+            {
+                if (stk.Count == 0)
+                {
+                    res[i] = -1;
+                    stk.Push(nums[i]);
+                }
+
+                if (stk.Peek() == nums[i])
+                {
+                    res[i] = -1;
+                }
+                while (stk.Peek() < nums[i])
+                {
+                    res[i] = stk.Pop();
+                    stk.Push(nums[i]);
+                }
+                while (stk.Peek() > nums[i])
+                {
+                    res[i] = stk.Peek();
+                    stk.Push(nums[i]);
+                }
+            }
+            if (ind != -1)
+                res[ind] =-1;
+            return res;
+        }
+
+        public static int FindMin(int[] nums)
+        {
+            int low = 0;
+            int high = nums.Length - 1;
+            if (nums.Length == 1)
+            {
+                return nums[0];
+            }
+            // if(nums[high]>nums[0]) return nums[0];
+            while (low < high)
+            {
+                int mid = (low + high) / 2;
+                Console.WriteLine(mid);
+                if (nums[mid] > nums[high])
+                    low = mid + 1;
+                else if (nums[mid] < nums[high])
+                    high = mid;
+                else
+                    high--;
+            }
+            return nums[low];
+        }
+        public static int[] ReplaceElements(int[] arr)
+        {
+            var stk = new Stack<int>();
+            var res = new int[arr.Length];
+            for (int i = arr.Length - 1; i >= 0; i--)
+            {
+                if (stk.Count == 0)
+                {
+                    res[i] = -1;
+                    stk.Push(arr[i]);
+                }
+                else if (stk.Peek() < arr[i])
+                {
+                    res[i] = stk.Pop();
+                    stk.Push(arr[i]);
+                }
+                else
+                {
+                    res[i] = stk.Peek();
+                }
+            }
+            return res;
+        }
+        public static IList<IList<int>> KSmallestPairs(int[] nums1, int[] nums2, int k)
+        {
+            var dict = new SortedDictionary<int[], int>();
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                for (int j = 0; j < nums1.Length; j++)
+                {
+                    var arr = new int[] { nums1[i], nums2[j] };
+                    if (dict.ContainsKey(arr))
+                    {
+                        dict[arr] += 1;
+                    }
+                    else
+                    {
+                        dict.Add(arr, 1);
+                    }
+                }
+            }
+            var res = new List<IList<int>>();
+            foreach (var dic in dict)
+            {
+                for (int i = 0; i < dic.Value & i <k; i++)
+                {
+                    res.Add(dic.Key.ToList());
+                }
+            }
+            return res;
+        }
+        public static int LargestSumAfterKNegations(int[] A, int k)
+        {
+
+            Array.Sort(A);
+            int sum = 0;
+                for (int i = 0; i < A.Length; i++)
+                {
+                    if (A[i] < 0 && k > 0)
+                    {
+                        A[i] = -A[i];
+                        sum += A[i];
+                        k--;
+                    }
+                    else if (k % 2 == 0 && A[i] >= 0)
+                    {
+                        k = 0;
+                        sum += A[i];
+                    }
+                    else if (k > 0)
+                    {
+                        k--;
+                        sum += -A[i];
+                    }
+                    else
+                    {
+                        sum += A[i];
+                    }
+                }
+                return sum;
+        }
+
+        public static string MinWindow(string s, string t)
+        {
+            var dict = new Dictionary<char, int>();
+            for (int k = 0; k < t.Length; k++)
+            {
+                if (!dict.ContainsKey(t[k]))
+                {
+                    dict.Add(t[k], 0);
+                }
+                dict[t[k]] += 1;
+            }
+         
+            int dmct = t.Length;
+            int mct = 0;
+            var map1 = new Dictionary<char, int>();
+            int i = -1;
+            int j = -1;
+            string ans = "";
+            while (true)
+            {
+                bool f1 = false;
+                bool f2 = false;
+                while (i < s.Length-1 && mct < dmct)
+                {
+                    i++;
+                    if (!map1.ContainsKey(s[i]))
+                    {
+                        map1.Add(s[i], 0);
+                    }
+                    map1[s[i]] += 1;
+
+                    if (dict.ContainsKey(s[i]) && map1[s[i]] <= dict[s[i]])
+                    {
+                        mct++;
+                    }
+                    f1 = true;
+                }
+                
+                while (j < i && mct == dmct)
+                {
+                    string pans = s.Substring(j + 1, i - j);
+                    if (ans.Length == 0 || pans.Length <= ans.Length)
+                    {
+                        ans = pans;
+                    }
+                    j++;
+                    if (map1[s[j]] == 1)
+                    {
+                        map1.Remove(s[j]);
+                    }
+                    else
+                    {
+                        map1[s[j]] -= 1;
+                    }
+                    if ((dict.ContainsKey(s[j]) && !map1.ContainsKey(s[j])) ||(map1.ContainsKey(s[j]) && dict.ContainsKey(s[j]) && map1[s[j]] < dict[s[j]]))
+                    {
+                        mct--;
+                    }
+                    f2 = true;
+                }
+
+                if (f1==false && f2==false )
+                {
+                    break;
+                }
+                
+            }
+            return ans;
+        }
+        public static Dictionary<Char, int> CharFrequency(string s)
+        {
+            var dict = new Dictionary<Char, int>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!dict.ContainsKey(s[i]))
+                {
+                    dict.Add(s[i], 0);
+                }
+                dict[s[i]] += 1;
+            }
+            return dict;
+        }
+
         public static bool CheckInclusion(string s1, string s2)
         {
             int len1 = s1.Length, len2 = s2.Length;
@@ -49,7 +678,7 @@ namespace WordCount
             var hash = new HashSet<char>();
             int j = 0;
             int i = 0;
-            while (j<s.Length)
+            while (j < s.Length)
             {
                 if (!hash.Contains(s[j]))
                 {
@@ -71,16 +700,16 @@ namespace WordCount
             var frwd = new int[len];
             var bkwd = new int[len];
             var ans = new int[len];
-            
+
             bkwd[len - 1] = 1;
             for (int i = len - 2; i >= 0; i--)
             {
-                bkwd[i] = bkwd[i + 1] * input[i+1];
+                bkwd[i] = bkwd[i + 1] * input[i + 1];
             }
             frwd[0] = 1;
             for (int i = 1; i < len; i++)
             {
-                frwd[i] = frwd[i-1] * input[i-1];
+                frwd[i] = frwd[i - 1] * input[i - 1];
             }
 
             for (int i = 0; i < len; i++)
@@ -211,10 +840,10 @@ namespace WordCount
                     }
                 }
             }
-            return palindromArr.Count+s.Length;
+            return palindromArr.Count + s.Length;
         }
 
-        public static int LengthOfLIS(int[] nums)      
+        public static int LengthOfLIS(int[] nums)
         {
             int[] temp = new int[nums.Length];
             temp[0] = 1;
@@ -367,7 +996,7 @@ namespace WordCount
             }
             return msf;
         }
-        public static IList<IList<int>> KSmallestPairs(int[] nums1, int[] nums2, int k)
+        public static IList<IList<int>> KSmallestPairs_old(int[] nums1, int[] nums2, int k)
         {
             var res = new List<int[]>();
             if (nums1 == null || nums2 == null || nums1.Length == 0 || nums2.Length == 0)
@@ -379,7 +1008,7 @@ namespace WordCount
             int sum = nums1[i] + nums2[j];
             if (nums1.Length == 1)
             {
-                for (int x = 0; x < k-1 && x < nums2.Length; x++)
+                for (int x = 0; x < k - 1 && x < nums2.Length; x++)
                 {
                     res.Add(new int[] { nums1[0], nums2[x] });
                 }
@@ -387,7 +1016,7 @@ namespace WordCount
             }
             else if (nums2.Length == 1)
             {
-                for (int x = 0; x < k-1 && x<nums1.Length; x++)
+                for (int x = 0; x < k - 1 && x < nums1.Length; x++)
                 {
                     res.Add(new int[] { nums1[x], nums2[0] });
                 }
@@ -421,7 +1050,7 @@ namespace WordCount
                 else if (sum1 == sum2)
                 {
                     res.Add(new int[] { nums1[i], nums2[j + 1] });
-                    res.Add(new int[] { nums1[i+1], nums2[j] });
+                    res.Add(new int[] { nums1[i + 1], nums2[j] });
                     //j++;
                     i++;
                 }
@@ -443,7 +1072,7 @@ namespace WordCount
             }
             int s = 0;
             int e = nums.Length;
-            
+
             int ind = 0;
             while (s < e)
             {
@@ -480,7 +1109,7 @@ namespace WordCount
             {
                 end++;
             }
-            return new int[] { start+1, end-1 };
+            return new int[] { start + 1, end - 1 };
         }
         public static string DecodeString(string s)
         {

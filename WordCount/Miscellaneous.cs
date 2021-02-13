@@ -1,13 +1,293 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WordCount
 {
-    public static class Miscellaneous
+	using System;
+    using System.Collections.Generic;
+
+    public class Solution
+	{
+		public static void Masdin()
+		{
+			int maxTime = 360;
+			int Testcases = Convert.ToInt32(Console.ReadLine());
+			for (int i = 0; i < Testcases; i++)
+			{
+				string[] tokens = Console.ReadLine().Split(' ');
+				int problems = int.Parse(tokens[0]);
+				int traveltime = int.Parse(tokens[1]);
+				if (traveltime >= 360)
+				{
+					Console.WriteLine(0);
+					break; ;
+				}
+				int availableTime = maxTime - traveltime;
+				int timeTaken = 0;
+				int p;
+				for (p = 1; p <= problems; p++)
+				{
+					timeTaken += p * 3;
+
+					if (availableTime < timeTaken)
+					{
+						break; ;
+					}
+				}
+				Console.WriteLine(p - 1);
+			}
+		}
+	}
+	public static class Miscellaneous
     {
+		#region
+
+		public static int ArrayRotated(int[] nums)
+		{
+			//All the integers of nums are unique
+
+			int n = nums.Length;
+			// If the list has just one element then return that element.
+			if (nums.Length == 1)
+			{
+				return nums[0];
+			}
+
+			// initializing left and right pointers.
+			int left = 0, right = nums.Length - 1;
+
+			// if the last element is greater than the first element then there is no rotation.
+			// e.g. 1 < 2 < 3 < 4 < 5 < 7. Already sorted array.
+			// Hence the smallest element is first element. A[0]
+			if (nums[right] > nums[0])
+			{
+				return nums[0];
+			}
+
+			while ( left <= right)
+			{
+				// Find the mid element
+				int mid = left + (right - left) / 2;
+
+				// if the mid element is greater than its next element then mid+1 element is the smallest
+				// This point would be the point of change. From higher to lower value.
+				if (nums[mid] > nums[mid + 1])
+				{
+					return mid + 1;
+				}
+
+				// if the mid element is lesser than its previous element then mid element is the smallest
+				if (nums[mid - 1] > nums[mid])
+				{
+					return mid;
+				}
+
+				// if the mid elements value is greater than the 0th element this means
+				// the least value is still somewhere to the right as we are still dealing with elements
+				// greater than nums[0]
+				if (nums[mid] > nums[0])
+				{
+					left = mid + 1;
+				}
+				else
+				{
+					// if nums[0] is greater than the mid value then this means the smallest value is somewhere to
+					// the left
+					right = mid - 1;
+				}
+
+			}
+
+			return -1;
+		}
+
+		public static int FloorElementInSortedArray(int[] A, int ele)
+		{
+			int res = -1;
+			int n = A.Length;
+			int s = 0;
+			int e = n - 1;
+			int m = 0;
+
+			while (s <= e)
+			{
+				m = s + (e - s) / 2;
+
+				if (A[m] == ele)
+				{
+					return ele;
+				}
+				else if (A[m] < ele)
+				{
+					res = A[m];
+					s = m + 1;
+				}
+				else if (A[m] > ele)
+				{
+					e = m - 1;
+				}
+			}
+
+			return res;
+		}
+
+        public static int CountElement(int[] A, int srh)
+		{
+			int first = BinarySearchForFirstElement(A, srh);
+			int last = BinarySearchForlastElement(A, srh);
+			int res = last - first + 1;
+			return res;
+		}
+		public static int BinarySearchForFirstElement(int[] A, int srh)
+		{
+			int n = A.Length;
+			int s = 0;
+			int e = n - 1;
+			int m = 0;
+			int res = -1;
+			while (s <= e)
+			{
+				m = s + (e - s) / 2;
+				if (srh == A[m])
+				{
+					e = m - 1;
+					res = m;
+				}
+				else if (srh < A[m])
+				{
+					e = m - 1;
+				}
+				else
+				{
+					s = m + 1;
+				}
+			}
+			return res;
+		}
+		public static int BinarySearchForlastElement(int[] A, int srh)
+		{
+			int n = A.Length;
+			int s = 0;
+			int e = n - 1;
+			int m = 0;
+			int res = -1;
+			while (s <= e)
+			{
+				m = s + (e - s) / 2;
+				if (srh == A[m])
+				{
+					s = m + 1;
+					res = m;
+				}
+				else if (srh < A[m])
+				{
+					e = m - 1;
+				}
+				else
+				{
+					s = m + 1;
+				}
+			}
+			return res;
+		}
+		public static int BinarySearch(int[] A, int srh)
+		{
+			int n = A.Length;
+			int s = 0;
+			int e = n-1;
+			int m = 0;
+
+			while(s<=e)
+			{
+				m = s+(e-s)/ 2;
+				if (srh == A[m])
+				{
+					return m;
+				}
+				else if (srh > A[m])
+				{
+					s = m + 1;
+				}
+				else
+				{
+					e = m - 1;
+				}
+			}
+			return -1;
+		}
+
+		#endregion
+		public static List<int> spiralOrder(List<List<int>> A)
+		{
+			int n = A.Count;
+			int m = A[0].Count;
+			int dir = 0;
+			int T = 0;
+			int R = m - 1;
+			int L = 0;
+			int B = n - 1;
+			List<int> result = new List<int>();
+
+			while (L <= R && T <= B)
+			{
+				if (dir == 0)
+				{
+					for (int i = L; i <= R; i++)
+					{
+						result.Add(A[T][i]);
+					}
+					T++;
+				}
+				else if (dir == 1)
+				{
+					for (int i = T; i <= B; i++)
+					{
+						result.Add(A[i][R]);
+					}
+					R--;
+				}
+				else if (dir == 2)
+				{
+					for (int i = R; i >= L; i--)
+					{
+						result.Add(A[B][i]);
+					}
+					B--;
+				}
+				else if (dir == 3)
+				{
+					for (int i = B; i >= T; i--)
+					{
+						result.Add(A[i][L]);
+					}
+					L++;
+				}
+				dir = (dir + 1) % 4;
+			}
+			return result;
+		}
+		public static int solve(List<int> A, int B)
+		{
+			int n = A.Count;
+			int sum = 0;
+			for (int i = 0; i < B; i++)
+			{
+				sum += A[i];
+			}
+			int res = int.MinValue;
+			for (int i = 0; i < B; i++)
+			{
+				sum += A[n - 1 - i];
+				sum -= A[B - 1 - i];
+				if (res < sum)
+				{
+					res = sum;
+				}
+			}
+			return res;
+		}
+
+
 		//Kadan's algorithm
 		public static int ContiguousSubArrayWithMaximumSum(int[] arr)
 		{

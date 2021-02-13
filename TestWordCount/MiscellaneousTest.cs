@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using WordCount;
 
 namespace TestWordCount
@@ -97,6 +98,83 @@ namespace TestWordCount
         public void ContiguousSubArrayWithMaximumSumTest(int[] input, int expectedOutput)
         {
             var output = Miscellaneous.ContiguousSubArrayWithMaximumSum(input);
+            Assert.AreEqual(expectedOutput, output);
+        }
+
+        [Test]
+        public void SolveTest()
+        {
+            List<int> list = new List<int>() { 5, 2, 1, 3, 9 };
+
+            var output = Miscellaneous.solve(list, 3);
+            Assert.AreEqual(17, output);
+        }
+
+        [Test]
+        public void spiralOrderTest()
+        {
+            string expectedOutput = "1,2,3,6,9,8,7,4,5";
+            var list = new List<List<int>>() {
+                new List<int>(){1,2,3 },
+                new List<int>(){ 4,5,6 },
+                new List<int>(){ 7,8,9},
+            };
+
+            var output = Miscellaneous.spiralOrder(list);
+            var result = string.Join(",", output);
+            Assert.AreEqual(result, expectedOutput);
+        }
+
+        [TestCase(new int[] { 1, 2,3,4,5,6,7,8,9,10}, 12, -1)]
+        [TestCase(new int[] { 1, 2,3,4,5,6,7,8,9,10}, 2, 1)]
+        [TestCase(new int[] {12 }, 12, 0)]
+        public void BinarySearchTest(int[] input, int srh,  int expectedOutput)
+        {
+            var output = Miscellaneous.BinarySearch(input, srh);
+            Assert.AreEqual(expectedOutput, output);
+        }
+
+        [TestCase(new int[] { 1, 2, 5,5,5,5,5,5,5, 9, 10 }, 5, 8)]
+        [TestCase(new int[] { 1, 2, 7,7,7,7, 7, 8, 9, 10 }, 7, 6)]
+        [TestCase(new int[] { 12 }, 12, 0)]
+        public void BinarySearchForlastElementTest(int[] input, int srh, int expectedOutput)
+        {
+            var output = Miscellaneous.BinarySearchForlastElement(input, srh);
+            Assert.AreEqual(expectedOutput, output);
+        }
+        [TestCase(new int[] { 1, 2, 5, 5, 5, 5, 5, 5, 5, 9, 10 }, 5, 2)]
+        [TestCase(new int[] { 1, 7, 7, 7, 7, 7, 7, 8, 9, 10 }, 7, 1)]
+        [TestCase(new int[] { 12 }, 12, 0)]
+        public void BinarySearchForFirstElementTest(int[] input, int srh, int expectedOutput)
+        {
+            var output = Miscellaneous.BinarySearchForFirstElement(input, srh);
+            Assert.AreEqual(expectedOutput, output);
+        }
+
+        [TestCase(new int[] { 1, 2, 5, 5, 5, 5, 5, 5, 5, 9, 10 }, 5, 7)]
+        [TestCase(new int[] { 1, 7, 7, 7, 7, 7, 7, 8, 9, 10 }, 7, 6)]
+        [TestCase(new int[] { 12 }, 12, 1)]
+        public void CountElementTest(int[] input, int srh, int expectedOutput)
+        {
+            var output = Miscellaneous.CountElement(input, srh);
+            Assert.AreEqual(expectedOutput, output);
+        }
+
+        [TestCase(new int[] { 1, 2, 4,8,9,10, 10,12,14 }, 5, 4)]
+        [TestCase(new int[] { 1, 2,3,5,6,7, 8, 9, 10,11,12,15,18,20 }, 14, 12)]
+        [TestCase(new int[] { 12 }, 12, 12)]
+        [TestCase(new int[] { 12 }, 11, -1)]
+        [TestCase(new int[] { 12 }, 13, 12)]
+        public void FloorElementInSortedArrayTest(int[] input, int srh, int expectedOutput)
+        {
+            var output = Miscellaneous.FloorElementInSortedArray(input, srh);
+            Assert.AreEqual(expectedOutput, output);
+        }
+
+        [TestCase(new int[] { 11,12,13,18,2,3,4 }, 4)]
+        public void ArrayRotatedTest(int[] input, int expectedOutput)
+        {
+            var output = Miscellaneous.ArrayRotated(input);
             Assert.AreEqual(expectedOutput, output);
         }
     }

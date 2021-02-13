@@ -11,6 +11,9 @@ namespace WordCount
         //Number of each words in a sentence.
         static void Main(string[] args)
         {
+            var s = 3 % 4;
+
+            //Timemanagement();
             string str = "<?xml version=\"1.0\" encoding=\"utf - 8\" ?> <root id=\"1\">   < subElement id = \"1\" >      < subSubElement id = \"1\" /> < subSubElement id = \"2\" /></ subElement >< subElement id = \"2\" /> < subElement id = \"3\" />  </ root >";
             XmlEditor xm = new XmlEditor();
            // xm.ReplaceNodeName(str, "subElement","child");
@@ -185,7 +188,32 @@ namespace WordCount
                 Console.WriteLine(item.Key + ":" + item.Value.ToString());
             }
             #endregion
+
+            
             Console.ReadLine();
+        }
+        public static void Timemanagement()
+        {
+            int maxTime = 360;
+            int Testcases = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < Testcases; i++)
+            {
+                string[] tokens = Console.ReadLine().Split(' ');
+                int problems = int.Parse(tokens[0]);
+                int traveltime = int.Parse(tokens[1]);
+                int availableTime = maxTime - traveltime;
+                int timeTaken = 0;
+                int p ;
+                for (p = 1; p <= problems; p++)
+                {
+                    if (availableTime >= timeTaken)
+                    {
+                        timeTaken += p * 3;
+                    }
+                }
+                Console.WriteLine(p-1);
+            }
+            return;
         }
     }
 }

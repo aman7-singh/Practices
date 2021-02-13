@@ -13,6 +13,7 @@ namespace WordCount
  
     public static class Leetcode
     {
+       
         public static int RainWaterTrap(int[] height)
         {
             int n = height.Length;

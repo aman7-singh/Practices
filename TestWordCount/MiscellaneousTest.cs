@@ -177,5 +177,30 @@ namespace TestWordCount
             var output = Miscellaneous.ArrayRotated(input);
             Assert.AreEqual(expectedOutput, output);
         }
+
+        [TestCase(new char[] { 'a','b','c','f','h' }, 'c','f')]
+        [TestCase(new char[] { 'a','b','c','f','h' }, 'b','c')]
+        [TestCase(new char[] { 'a','b','c','f','h' }, 'h','a')]
+        [TestCase(new char[] { 'a','b','c','f','h' }, 'a','b')]
+        [TestCase(new char[] { 'a','b','c','f','h' }, 'x','\0')]
+        public void NextAlphabeticalElementTest(char[] input, char srch, char expectedOutput)
+        {
+            var output = Miscellaneous.NextAlphabeticalElement(input,srch);
+            Assert.AreEqual(expectedOutput, output);
+        }
+
+        [TestCase(new int[] { 11, 12, 13, 18, 2, 3, 4 }, 3)]
+        [TestCase(new int[] { 11, 12, 13, 18,19}, 4)]
+        [TestCase(new int[] { 11, 12, 13, 18,20,19}, 4)]
+        [TestCase(new int[] { 11, 12, 13, 18,20,20}, -1)]
+        [TestCase(new int[] { 10,9,8,2,1}, 0)]
+        [TestCase(new int[] { 1,10,9,8,2,1}, 1)]
+        [TestCase(new int[] { 2,2,2,2,2,2}, -1)]
+        [TestCase(new int[] { 10,10,9,8,2,1}, -1)]
+        public void PeakElementTest(int[] input, int expectedOutput)
+        {
+            var output = Miscellaneous.PeakElement(input);
+            Assert.AreEqual(expectedOutput, output);
+        }
     }
 }

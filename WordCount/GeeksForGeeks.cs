@@ -16,7 +16,6 @@ namespace WordCount
             var a1 = s1.ToCharArray();
             var a2 = s2.ToCharArray();
             var ans = "";
-            var ans2 = "";
             var lcs = new int[a1.Length,a2.Length];
             for (int i = 1; i < a1.Length; i++)
             {

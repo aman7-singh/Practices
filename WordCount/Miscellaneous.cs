@@ -42,6 +42,76 @@ namespace WordCount
     {
 		#region
 
+		public static int PeakElement(int[] A)
+		{
+			int n = A.Length;
+			int s = 0;
+			int e = n - 1;
+			int m = 0;
+
+			while (s <= e)
+			{
+				m = s + (e - s) / 2;
+
+				if (m > 0 && m < n - 1)
+				{
+					if (A[m] > A[m + 1] && A[m] > A[m - 1])
+						return m;
+					else if (A[m] < A[m + 1])
+						s = m + 1;
+					else
+						e = m - 1;
+				}
+				else if (m == 0)
+				{
+					if (A[0] > A[1])
+						return 0;
+					else if (A[0] == A[1])
+						return -1;
+					else
+						return 1;
+				}
+				else if (m == n - 1)
+				{
+					if (A[m] > A[m - 1])
+						return m;
+					else if (A[m] == A[m - 1])
+						return -1;
+					else
+						return m - 1;
+				}
+			}
+
+			
+
+			return -1;
+		}
+
+		public static char NextAlphabeticalElement(char[] A, char srch)
+		{
+			int n = A.Length;
+			int s = 0;
+			int e = n-1;
+			int m = 0;
+			while (s <= e)
+			{
+				m = s + (e - s) / 2;
+				if (A[m] == srch)
+				{
+					return A[(m + 1)%n];
+				}
+				else if (A[m] < srch)
+				{
+					s = m + 1;
+				}
+				else
+				{
+					e = m - 1;
+				}
+			}
+			return '\0';
+			
+		}
 		public static int ArrayRotated(int[] nums)
 		{
 			//All the integers of nums are unique
